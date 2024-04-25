@@ -1,16 +1,15 @@
-import { sequelize }  from '../database'
 import { DataTypes, Model } from "sequelize";
+import { sequelize } from "../database";
 
-interface CandidateInstance extends Model {
+export interface CompanyInstance extends Model {
     id: number;
     name: string;
     bio: string;
+    website: string;
     email: string;
-    phone: string;
-    openToWork: boolean;
 }
 
-export const Candidate = sequelize.define<CandidateInstance>("candidates", {
+export const Company = sequelize.define<CompanyInstance>("companies", {
     id: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -21,15 +20,15 @@ export const Candidate = sequelize.define<CandidateInstance>("candidates", {
         type: DataTypes.STRING,
         allowNull: false,
     },
+    bio: DataTypes.TEXT,
+    website: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true
+    },
     email: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true,
-    },
-    bio: DataTypes.TEXT,
-    phone: DataTypes.STRING,
-    openToWork: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: true,
+        unique: true
     },
 });
