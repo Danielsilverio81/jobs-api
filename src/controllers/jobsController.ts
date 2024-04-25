@@ -32,8 +32,9 @@ export const jobsController = {
     show: async (req: Request, res: Response) => {
         try {
             const { id } = req.params;
-            const job = await Job.findByPk(id, { include: "company" });
-            res.status(200).json(job);
+            const job = await Job.findByPk(id, { include: ["company", 'candidates'] });
+            const candidatesCount = await job?.countCandidates()
+            res.status(200).json({...job?.get(), candidatesCount});
         } catch (error) {
             if (error instanceof Error) {
                 return res.status(400).json({ message: error.message });
@@ -72,6 +73,45 @@ export const jobsController = {
         } catch (error) {
             if (error instanceof Error) {
                 return res.status(400).json({ message: error.message });
+            }
+        }
+    },
+    addCandidate: async (req: Request, res: Response) => {
+        const jobId = req.params.id;
+        const { candidateId } = req.body;
+
+        try {
+            const job = await Job.findByPk(jobId);
+
+            if (job === null)
+                return res
+                    .status(404)
+                    .json({ message: "Vaga de emprego não encontrada" });
+
+            await job.addCandidate(candidateId);
+
+            return res.status(201).send();
+        } catch (err) {
+            if (err instanceof Error) {
+                return res.status(400).json({ message: err.message });
+            }
+        }
+    },
+    removeCandidate: async (req: Request, res: Response) => {
+        const jobId = req.params.id
+        const { candidateId } = req.body
+
+        try {
+            const job = await Job.findByPk(jobId)
+
+            if (job === null) return res.status(404).json({ message: 'Vaga de emprego não encontrada' })
+
+            await job.removeCandidate(candidateId)
+
+            return res.status(204).send()
+        } catch (err) {
+            if (err instanceof Error) {
+                return res.status(400).json({ message: err.message })
             }
         }
     },
