@@ -9,7 +9,7 @@ export interface JobInstance extends Model {
     companyId: number
 }
 
-const job = sequelize.define<JobInstance>('jobs', {
+const Job = sequelize.define<JobInstance>('jobs', {
     id: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -40,4 +40,4 @@ const job = sequelize.define<JobInstance>('jobs', {
     }
 })
 
-export {job};
+export {Job};

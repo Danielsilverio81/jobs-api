@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
-import { Company, CompanyInstance } from "../models/Companie";
+import { Company } from "../models";
+import { CompanyInstance } from "../models/Company";
 
 export const companiesController = {
   index: async (req: Request, res: Response) => {
@@ -33,7 +34,7 @@ export const companiesController = {
     const { id } = req.params;
     try {
       if (id) {
-        const company = await Company.findByPk(id);
+        const company = await Company.findByPk(id, { include: "jobs" });
         return res.status(201).json(company);
       } else {
         console.error("Error id not found");
