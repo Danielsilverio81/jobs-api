@@ -12,11 +12,11 @@ services:
       - "3000:3000"
 
     environment:
-      DATABASE_URL: "postgres://postgres:postgres@db:5432/onebitjobs_development"
+      DATABASE_URL: "postgres://postgres:postgres@db:5432/jobs_development"
       NODE_ENV: "development"
 
     networks:
-      - api-sequelize
+      - api-sequelize-jobs
 
   db:
     image: postgres
@@ -26,8 +26,8 @@ services:
       - "49555:5432"
 
     networks:
-      - api-sequelize
+      - api-sequelize-jobs
 
 networks:
-  api-sequelize:
+  api-sequelize-jobs:
     driver: bridge

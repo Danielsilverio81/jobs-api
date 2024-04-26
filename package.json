@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "ts-node-dev src/app.ts"
+    "createdb": "sequelize-cli db:create",
+    "migrate": "sequelize-cli db:migrate",
+    "dev": "npm run createdb && npm run migrate && ts-node-dev src/app.ts"
   },
   "keywords": [],
   "author": "",
